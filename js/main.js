@@ -41,26 +41,33 @@ function deposit() {
   // Prompt the user for the index of an account and the amount to deposit into that account.
   let account = +prompt("enter account number");
   let amount = +prompt("enter deposite amount");
-  data.splice(account, 1, data[account] + amount);
   data[account] += amount;
+  // data.splice(account, 1, data[account] + amount);
+  // data[account] += amount;
   // Modify the data array to reflect the deposit.
   // Adjust the maxVal variable if necessary.
   // Use the outputEl to provide a confirmation message.
+  while (data[account] >= maxVal) {
+    maxVal++;
+  }
 
-  outputEl.innerHTML = "Deposit";
+  outputEl.innerHTML = `${amount} $ has been deposited in account ${account}`;
 }
 
 function withdrawal() {
   // Prompt the user for the index of an account and the amount to withdraw from that account.
   let account = +prompt("enter account number");
   let amount = +prompt("enter withdraw amount");
-  data.splice(account, 1, data[account] - amount);
-  data[account] -= amount;
+
   // Modify the data array to reflect the withdrawal.
   // Check to assure that the account has enough funds.
+  if ((data[account] -= amount) < 0) {
+    outputEl.innerHTML = "Withdrawal error. no funding";
+  } else {
+    data[account] -= amount;
+    outputEl.innerHTML = `${amount}$ withdrawn`;
+  }
   // Use the outputEl to provide a confirmation message.
-
-  outputEl.innerHTML = "Withdrawal";
 }
 
 function countUnder2000() {
@@ -80,23 +87,30 @@ function generousDonor() {
   // account that has less than $2000.
   // Modify the data array to apply this donation.
   // Use the outputEl to display the total amount of money that was donated.
-  for (let n = 0; n <= 50; n++) {
+  let donation = 500;
+  let count = 0;
+  for (let n = 0; n < 50; n++) {
     if (data[n] < 2000) {
-      data[n] += 500;
+      data[n] += donation;
+      count++;
     }
   }
-  outputEl.innerHTML = "Generous Donor";
+  let totalDon = count * donation;
+  outputEl.innerHTML = `total amount of money donated: ${totalDon}`;
 }
-
+//total variabloe for total amount hacked
 function hackerAttack() {
+  let total = 0;
+
   // A hacker steals 5% from every account.
-  for (let n = 0; n <= 50; n++) {
+  for (let n = 0; n < 50; n++) {
     data[n] -= data[n] * 0.05;
+    total += data[n] * 0.05;
   }
+  drawDataArray();
+  outputEl.innerHTML = `Amount hacked: ${total}`;
   // Modify the data array to apply this theft.
   // Use the outputEl to display the total amount that was stolen.
-
-  outputEl.innerHTML = "Hacker Attack";
 }
 
 // ******************************************************
